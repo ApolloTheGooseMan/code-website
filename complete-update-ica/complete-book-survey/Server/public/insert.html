@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+    <head>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>            
+        <title>GIMM 340 Book Survey</title>
+        <link rel='stylesheet' href='style.css'>
+    </head>
+    <body>
+        <h1>GIMM 340 Book Survey</h1>
+
+        <hr/>
+
+        <div  class='row'>
+            <div class='col-2'>
+                <label>First Name</label>
+            </div>
+            <div class='col-10'>
+                <input id='firstName' type='text' />
+            </div>
+        </div>
+
+        <div class='row'>
+            <div class='col-2'>
+                <label>Last Name</label>
+            </div>
+            <div class='col-10'>
+                <input id='lastName' type='text' />
+            </div>
+        </div>
+        
+        <div class='row'>
+            <div class='col-2'>
+                <label>What book do you want to read?</label>
+            </div>
+            <div class='col-10'>
+                <select id='books'>
+
+                </select>
+            </div>
+        </div>
+
+        <div  class='row'>
+            <div class='col-2'>
+                <label>Why?</label>
+            </div>
+            <div class='col-10'>
+                <textarea id='reason'></textarea>
+            </div>
+        </div>
+
+        <div class='row'>
+            <div class='col-12'>
+                <button id='search'>Submit</button>
+            </div>
+        </div>
+
+        <hr/>
+
+        <script>
+            const isEmpty = (obj) => Object.keys(obj).length === 0;
+
+            fetch("/books/", {method: 'GET'})
+                    .then((response) => {
+                        return new Promise((resolve) => response.json()
+                            .then((json) => resolve({
+                                status: response.status,
+                                json,
+                            })
+                        ));
+                    })
+                    .then(({status, json}) => {
+                        if (200 === status) {
+                            const bookDropDown = document.getElementById('books');
+                            for (book of json.data) {
+                                let option = document.createElement("option");
+                                    option.value = book.id;
+                                    option.text = book.title + ' by ' + book.author + ' (' + book.pages + ' pages)';
+                                bookDropDown.add(option);
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+
+            document.getElementById('search').addEventListener('click', (event) => {
+                const formData = new FormData();
+
+                if (document.getElementById('firstName').value.length !== 0) {
+                    formData.append('firstName', document.getElementById('firstName').value);
+                }
+                if (document.getElementById('lastName').value.length !== 0) {
+                    formData.append('lastName', document.getElementById('lastName').value);
+                }
+                if (document.getElementById('books').value.length !== 0) {
+                    formData.append('book', document.getElementById('books').value);
+                }
+                if (document.getElementById('reason').value.length !== 0) {
+                    formData.append('reason', document.getElementById('reason').value);
+                }
+
+                //Settings for FETCH API request
+                let fetchSettings = {
+                    method: 'POST',
+                    body: formData
+                };
+
+                //Send FETCH API request
+                fetch('/survey/', fetchSettings)
+                    .then((response) => {
+                        return new Promise((resolve) => response.json()
+                            .then((json) => resolve({
+                                status: response.status,
+                                json,
+                            })
+                        ));
+                    })
+                    //Logic to display errors on form 
+                    .then(({status, json}) => {
+                        
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                return;
+            });               
+        </script>
+    </body>
+</html>

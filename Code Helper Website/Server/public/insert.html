@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Create Entry</title>
+    <link rel="stylesheet" href="Styles.css">
+</head>
+
+<body>
+
+    <h1>Create New Entry</h1>
+
+    <input id="name" placeholder="Project Name ID"><br>
+    <input id="promt" placeholder="Prompt"><br>
+    <input id="code" placeholder="Code Type ID"><br>
+    <input id="answer" placeholder="Answer"><br>
+    <input id="script" placeholder="Script"><br>
+
+    <button id="create" class="enter-btn">Create</button>
+
+    <script>
+
+        document.getElementById('create').addEventListener('click', () => {
+
+            const formData = new URLSearchParams();
+            formData.append('name', document.getElementById('name').value);
+            formData.append('promt', document.getElementById('promt').value);
+            formData.append('code', document.getElementById('code').value);
+            formData.append('answer', document.getElementById('answer').value);
+            formData.append('script', document.getElementById('script').value);
+
+            fetch("http://localhost/chelper/", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData.toString()
+            })
+            .then(res => res.json().then(data => ({ status: res.status, data })))
+            .then(({ status, data }) => {
+
+                // validation errors
+                if (status === 400) {
+                    alert(data.errors.join("\n"));
+                    return;
+                }
+
+                // success
+                alert("Created successfully!");
+
+                // go back to list page
+                window.location.href = "index.html";
+            })
+            .catch(err => console.error(err));
+
+        });
+
+    </script>
+
+</body>
+
+</html>

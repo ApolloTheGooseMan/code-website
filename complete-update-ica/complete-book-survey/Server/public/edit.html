@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+    <head>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>            
+        <title>GIMM 340 Book Survey Responses</title>
+        <link rel='stylesheet' href='style.css'>
+    </head>
+    <body>
+        <h1>GIMM 340 Book Survey</h1>
+
+        <hr/>
+
+        <div  class='row'>
+            <div class='col-2'>
+                <label>First Name</label>
+            </div>
+            <div class='col-10'>
+                <input id='firstName' type='text' />
+            </div>
+        </div>
+
+        <div class='row'>
+            <div class='col-2'>
+                <label>Last Name</label>
+            </div>
+            <div class='col-10'>
+                <input id='lastName' type='text' />
+            </div>
+        </div>
+        
+        <div class='row'>
+            <div class='col-2'>
+                <label>What book do you want to read?</label>
+            </div>
+            <div class='col-10'>
+                <select id='books'>
+
+                </select>
+            </div>
+        </div>
+
+        <div  class='row'>
+            <div class='col-2'>
+                <label>Why?</label>
+            </div>
+            <div class='col-10'>
+                <textarea id='reason'></textarea>
+            </div>
+        </div>
+
+        <div class='row'>
+            <div class='col-12'>
+                <button id='search'>Submit</button>
+            </div>
+        </div>
+
+        <hr/>
+
+        <script>
+            //Custom method for FETCH API functionality 
+            const fetchMethod = (url, fetchParameters, callback) => {
+                fetch(url, fetchParameters)
+                    .then((response) => {
+                        return new Promise((resolve) => response.json()
+                            .then((json) => resolve({
+                                status: response.status,
+                                json,
+                            })
+                        ));
+                    })
+                    .then(({status, json}) => {
+                        callback(status, json);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            };
+            
+            //Search parameters (e.g. www.example.html?id=10; id=10)
+            const urlParams = new URLSearchParams(window.location.search);
+
+            fetchMethod(
+                '/books/', 
+                {method: 'GET'}, 
+                (status, json) => { 
+                    if (200 === status) {
+                        const bookDropDown = document.getElementById('books');
+                        for (book of json.data) {
+                            let option = document.createElement("option");
+                                option.value = book.id;
+                                option.text = book.title + ' by ' + book.author + ' (' + book.pages + ' pages)';
+                            bookDropDown.add(option);
+                        }
+
+                        fetchMethod(
+                            '/survey/' + urlParams.get('id') + '/',
+                            {method: 'GET'},
+                            (status, json) => { 
+                                if (200 === status) {
+                                    document.getElementById('firstName').value = json.data[0].first_name;
+                                    document.getElementById('lastName').value = json.data[0].last_name;
+                                    document.getElementById('books').value = json.data[0].book_id;
+                                    document.getElementById('reason').value = json.data[0].why;
+                                }
+                            }
+                        );
+                    }
+                }
+            );
+            
+            document.getElementById('search').addEventListener('click', (event) => {
+                const formData = new FormData();
+
+                if (document.getElementById('firstName').value.length !== 0) {
+                    formData.append('firstName', document.getElementById('firstName').value);
+                }
+                if (document.getElementById('lastName').value.length !== 0) {
+                    formData.append('lastName', document.getElementById('lastName').value);
+                }
+                if (document.getElementById('books').value.length !== 0) {
+                    formData.append('book', document.getElementById('books').value);
+                }
+                if (document.getElementById('reason').value.length !== 0) {
+                    formData.append('reason', document.getElementById('reason').value);
+                }
+                const urlParams = new URLSearchParams(window.location.search);
+            
+                fetchMethod(
+                    '/survey/' + urlParams.get('id') + '/',
+                    {method: 'PUT', body: formData},
+                    (status, json) => { 
+                        if (200 === status) {
+                            console.log(json);
+                        }
+                    }
+                );
+            });
+        </script>
+    </body>
+</html>

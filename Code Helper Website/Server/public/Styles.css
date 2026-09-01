@@ -1,0 +1,317 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    text-align: center;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgb(211, 36, 36) 0,
+        rgb(177, 11, 11) 75px,
+        rgb(255, 255, 65) 75px,
+        rgb(216, 216, 2) 150px
+    );
+    background-attachment: fixed;
+}
+
+.titles {
+    color: white;
+    -webkit-text-stroke: 1px black;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+    font-size: 60px;
+}
+
+p {
+    color: white;
+    -webkit-text-stroke: 1px black;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+    font-size: 32px;
+}
+
+li {
+    color: white;
+    -webkit-text-stroke: 1px black;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+    font-size: 32px;
+}
+
+.cont-border {
+    border: 2px solid #B47846;
+    background-color: rgb(34, 32, 32);
+    color: white;
+    font-size: 26px;
+    text-align: center;
+}
+
+.frt-row {
+    color: white;
+    font-size: 34px;
+    margin-bottom: auto;
+}
+
+.scd-row {
+    color: white;
+    font-size: 12px;
+}
+
+.idv-box {
+    border: 2px solid #B47846;
+}
+
+.num-box {
+    font-size: 20px;
+    display: inline-block;
+    transition: transform 0.2s, color 0.2s;
+    cursor: pointer;
+    padding: 2px 6px;
+}
+
+.num-box:hover {
+    color: rgb(155, 16, 16);
+    transform: scale(1.06);
+}
+
+.numInput {
+    width: 85%;
+    text-align: center;
+    border: 2px solid #B47846;
+    border-radius: 6px;
+    font-size: 18px;
+    background-color: #f0f8ff;
+    color: #333;
+    transition: transform 0.2s, border-color 0.2s;
+    margin: 5px;
+}
+
+.numInput:focus {
+    outline: none;
+    border-color: rgb(155, 16, 16);
+    transform: scale(1.06);
+}
+
+textarea.num-input {
+    width: 90%;
+    height: 40px;
+    margin: 5px 0;
+}
+
+.selected {
+    color: rgb(155, 16, 16);
+    transform: scale(1.06);
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    padding: 2px 6px;
+}
+
+.center-box {
+    font-size: 20px;
+}
+
+.video {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.enter-btn {
+    width: 75%;
+    margin: 20px auto;
+    display: block;
+
+    background-color: rgb(155, 16, 16);
+    color: white;
+
+    font-size: 28px;
+    font-weight: bold;
+
+    padding: 15px;
+
+    border: 3px solid #B47846;
+    border-radius: 12px;
+
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.text-danger{
+    height: 30px;
+    font-size: 18px;
+}
+
+.quadrants {
+    z-index: -1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* so they don't block clicking your page */
+}
+
+.quadrants img {
+    position: absolute;
+    width: 150px;     /* adjust size */
+    height: auto;
+    pointer-events: none;
+}
+
+/* Quadrant positions */
+.top-left {
+    top: 0;
+    left: 0;
+}
+
+.top-right {
+    top: 0;
+    right: 0;
+}
+
+.bottom-left {
+    bottom: 0;
+    left: 0;
+}
+
+.bottom-right {
+    bottom: 0;
+    right: 0;
+}
+
+#loading {
+    display: flex;
+    justify-content: flex-start; /* keep spinner on the left */
+    align-items: center; /* vertically center if needed */
+}
+
+#loading img {
+    width: 60px;
+    height: 60px;
+}
+
+.gone {
+    opacity: 0%;
+}
+
+.words{
+    text-align: left;
+    font-size: 26px;   
+}
+
+table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    background-color: rgb(34, 32, 32);
+    color: white;
+}
+
+#classes {
+    max-width: 95vw;
+    margin-left: auto;
+    margin-right: auto;
+    overflow-x: auto;
+    box-sizing: border-box;
+}
+
+th {
+    border: 2px solid #B47846;
+    padding: 10px;
+    font-size: 20px;
+    background-color: rgb(155, 16, 16);
+}
+
+td {
+    border: 2px solid #B47846;
+    padding: 10px;
+    font-size: 16px;
+    vertical-align: top;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    vertical-align: middle;
+}
+
+a {
+    color: rgb(255, 255, 65);
+    font-weight: bold;
+}
+
+a:hover {
+    color: white;
+}
+
+button {
+    border: 2px solid #B47846;
+    border-radius: 6px;
+    background-color: rgb(155, 16, 16);
+    color: white;
+    padding: 8px 14px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: rgb(216, 216, 2);
+    color: black;
+    transform: scale(1.05);
+}
+
+pre {
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    text-align: left;
+    color: white;
+}
+
+.edit-cell {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    min-height: 100%;
+    gap: 10px;
+}
+
+.edit-link {
+    color: yellow;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.delete-btn {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+}
+
+.overflow {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.project-col {
+    width: 10%;
+}
+
+.prompt-col {
+    width: 20%;
+}
+
+.code-col {
+    width: 10%;
+}
+
+.answer-col {
+    width: 20%;
+}
+
+.script-col {
+    width: 30%;
+}
+
+.edit-col {
+    width: 10%;
+}

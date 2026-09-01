@@ -1,0 +1,23 @@
+To use Server
+
+Notice... make sure node.js is instaled
+
+1. in file explore within the server folder click the top bar file chain bar thing
+2. type cmd
+3. instale the stuffs needed (see below)
+4. type "node app.js"
+5. go to "http://localhost/index.html" for the index dont open the public file to open it
+
+if not working try "node -v" to see if you have node js instaled
+
+for instalations type
+npm install openai
+npm install express
+npm install multer
+npm install express-validator
+npm install mysql2 (for mysql)
+
+to turn off the server press ctrl+shift+c within the command promt
+
+
+also if future me is reading this, your doing great keep up the good work <3

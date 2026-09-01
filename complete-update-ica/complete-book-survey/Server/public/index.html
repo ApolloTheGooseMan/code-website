@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+    <head>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>            
+        <title>GIMM 340 Book Survey Responses</title>
+        <link rel='stylesheet' href='style.css'>
+    </head>
+    <body>
+        <h1>Survey Responses</h1>
+
+        <p><a href='insert.html'>Create New Survey Response</a></p>
+
+        <hr/>
+
+        <div id="survey-responses"></div>
+
+        <script>
+            //Send FETCH API request to get all survey responses
+            fetch("/survey/", {method: 'GET'})
+                .then((response) => {
+                    return new Promise((resolve) => response.json()
+                        .then((json) => resolve({
+                            status: response.status,
+                            json,
+                        })
+                    ));
+                })
+                .then(({status, json}) => {
+                    console.log(status, json);
+                    if (200 === status) {
+                        const surveyResponses = document.getElementById('survey-responses');
+                        if (json.data.length > 0) {
+                            for (response of json.data) {
+                                surveyResponses.innerHTML += "<p><a href='edit.html?id=" + response.id + "'>" + response.first_name + " " + response.last_name + "'s Survey Response</a></p>";
+                            }
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        </script>
+    </body>
+</html>

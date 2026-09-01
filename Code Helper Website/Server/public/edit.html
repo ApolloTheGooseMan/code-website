@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Edit Entry</title>
+    <link rel="stylesheet" href="Styles.css">
+</head>
+
+<body>
+
+    <h1>Edit Entry</h1>
+
+    <input id="name" placeholder="Project Name"><br>
+    <input id="promt" placeholder="Promt"><br>
+    <input id="code" placeholder="Code Type"><br>
+    <input id="answer" placeholder="Answer"><br>
+    <input id="script" placeholder="Script"><br>
+
+    <button id="save" class="enter-btn">Save</button>
+
+    <script>
+        // STEP 1: Get ID from URL
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+
+        console.log("Editing ID:", id);
+
+        // STEP 2: Fetch data from server
+        fetch("http://localhost/chelper/" + id)
+            .then(res => res.json())
+            .then(data => {
+                const row = data.data;
+
+                // STEP 3: Fill form
+                document.getElementById('name').value = row.project_name;
+                document.getElementById('promt').value = row.promt;
+                document.getElementById('code').value = row.code_type;
+                document.getElementById('answer').value = row.answer;
+                document.getElementById('script').value = row.script;
+            });
+        document.getElementById('save').addEventListener('click', () => {
+
+            const formData = new URLSearchParams();
+            formData.append('name', document.getElementById('name').value);
+            formData.append('promt', document.getElementById('promt').value);
+            formData.append('code', document.getElementById('code').value);
+            formData.append('answer', document.getElementById('answer').value);
+            formData.append('script', document.getElementById('script').value);
+
+            fetch("http://localhost/chelper/" + id, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData.toString()
+            })
+                .then(res => res.json().then(data => ({ status: res.status, data })))
+                .then(({ status, data }) => {
+
+                    if (status === 400) {
+                        alert(data.errors.join("\n")); // show validation errors
+                    } else {
+                        alert("Updated successfully!");
+                        window.location.href = "index.html";
+                    }
+
+                })
+                .catch(err => console.error(err));
+        });
+    </script>
+
+</body>
+
+</html>
