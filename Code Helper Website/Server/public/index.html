@@ -116,7 +116,7 @@
                     return;
                 }
 
-                fetch("http://localhost/chelper/" + id, {
+                fetch("/chelper/" + id, {
                     method: "DELETE"
                 })
                     .then(res => res.json())

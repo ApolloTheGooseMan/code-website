@@ -26,7 +26,7 @@
         console.log("Editing ID:", id);
 
         // STEP 2: Fetch data from server
-        fetch("http://localhost/chelper/" + id)
+        fetch("/chelper/" + id)
             .then(res => res.json())
             .then(data => {
                 const row = data.data;
@@ -47,7 +47,7 @@
             formData.append('answer', document.getElementById('answer').value);
             formData.append('script', document.getElementById('script').value);
 
-            fetch("http://localhost/chelper/" + id, {
+            fetch("/chelper/" + id, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
