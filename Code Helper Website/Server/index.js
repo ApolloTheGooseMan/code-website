@@ -10,7 +10,7 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }));
 
 const upload = multer()
-const port = 80 //Default port to http server
+const port = 3000 //Default port to http server
 
 let connection = null;
 
